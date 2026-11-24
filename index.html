@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Kırlı Otomotiv güncel araç stoku. Gölhisar / Burdur.">
+<meta property="og:title" content="Kırlı Otomotiv">
+<meta property="og:description" content="Kırlı Otomotiv, kârlı ticaret. Güncel araçlar, boya ve değişen bilgisiyle.">
+<meta property="og:image" content="emblem.png">
+<meta name="theme-color" content="#0F0F10">
+<link rel="icon" href="emblem.png">
+<link rel="apple-touch-icon" href="emblem.png">
+<title>Kırlı Otomotiv</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Showroom: black brand strip on top, white stock list below, hairlines instead of boxes */
+:root{
+  --bg:#FFFFFF; --ink:#111214; --muted:#66686D; --line:#E7E7E9; --soft:#F3F3F4;
+  --strip:#0F0F10; --strip-ink:#F2F2F2; --strip-muted:#B9B9BC; --wa:#1E8E4A;
+  --danger:#A3261E;
+  --brand:'Gelasio',Georgia,'Times New Roman',serif;
+  --head:'Inter Tight','Inter',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* brand strip */
+.strip{background:var(--strip);color:var(--strip-ink);margin-top:calc(-1 * env(safe-area-inset-top,0px));padding-top:calc(env(safe-area-inset-top,0px) + 18px);padding-bottom:20px}
+.strip .wrap{display:flex;align-items:center;gap:16px}
+.strip img{width:70px;height:70px;flex-shrink:0}
+.brandtxt{flex:1;min-width:0;text-decoration:none}
+.brand1{font-family:var(--brand);font-weight:600;font-size:30px;letter-spacing:6px;line-height:1}
+.brand2{font-family:var(--brand);font-size:11px;letter-spacing:6px;color:var(--strip-muted);margin-top:8px}
+.brand3{font-family:var(--brand);font-style:italic;font-size:16px;color:#DADADA;margin-top:9px}
+.stripbtn{align-self:flex-start;border:1px solid #3A3A3D;background:transparent;color:var(--strip-ink);height:40px;padding:0 12px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}
+
+/* headings & bits */
+h1,h2,h3{font-family:var(--head);font-weight:500;letter-spacing:-.4px;margin:0;text-wrap:balance}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.btn{height:50px;padding:0 18px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:500;text-decoration:none;cursor:pointer}
+.btn.dark{background:var(--ink);color:var(--bg)}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.sm{height:40px;padding:0 12px;font-size:13px}
+.btn.ghost{border-color:var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.linkbtn{background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* list */
+.listhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:28px}
+.listhead h1{font-size:27px}
+.tools{display:flex;gap:8px;margin-top:16px}
+.tools input{flex:1;min-width:0;height:46px;border:1px solid var(--line);padding:0 14px;background:var(--bg)}
+.tools select{height:46px;border:1px solid var(--line);background:var(--bg);padding:0 10px;max-width:42%}
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-top:14px;overflow-x:auto;scrollbar-width:none}
+.tabs button{height:44px;border:0;background:none;padding:0;color:var(--muted);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent}
+.tabs button[aria-pressed="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
+.cars{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:640px){.cars{grid-template-columns:1fr 1fr;column-gap:24px}}
+.car{display:flex;flex-direction:column;gap:14px;padding:24px 0 26px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);min-width:0}
+.photo{position:relative;aspect-ratio:4/3;max-width:100%;background:var(--soft);overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#9A9A9E;font-size:11px;letter-spacing:2px}
+.badge{position:absolute;background:var(--ink);color:#fff;font-size:12px;font-weight:600;letter-spacing:2px;padding:8px 12px}
+.badge.vid{right:0;bottom:0;letter-spacing:.3px;font-weight:500;display:flex;gap:6px;align-items:center;background:rgba(17,18,20,.82)}
+.sold .photo::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.5)}
+.sold .badge.s{left:0;top:0;z-index:1}
+.car .model{font-family:var(--head);font-size:21px;font-weight:500;letter-spacing:-.3px;line-height:1.2}
+.car .specs{font-size:14px;color:var(--muted)}
+.car .row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.price{font-family:var(--head);font-weight:600;font-size:22px;letter-spacing:-.3px}
+.sold .price,.sold .model{color:var(--muted)}
+.empty{padding:56px 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.empty h2{font-size:22px}
+
+/* footer */
+.foot{background:var(--strip);color:var(--strip-ink);margin-top:48px;padding-top:40px;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+.foot h2{font-family:var(--brand);font-weight:400;font-style:italic;font-size:26px;letter-spacing:0}
+.foot .about{color:#BDBDC0;max-width:60ch;margin:12px 0 0}
+.kv{display:flex;flex-direction:column;border-top:1px solid #2A2A2D;margin-top:22px}
+.kv div{display:flex;flex-direction:column;gap:2px;padding:14px 0;border-bottom:1px solid #2A2A2D}
+.kv span:first-child{font-size:11px;letter-spacing:1.6px;color:#8E8E92}
+.kv a{color:var(--strip-ink)}
+.foot .btns{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.foot .btn{flex:1;min-width:140px;border-color:#3A3A3D;background:transparent;color:var(--strip-ink)}
+.foot .btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.copy{font-size:12px;color:#8E8E92;margin-top:24px;display:flex;justify-content:space-between}
+
+/* detail */
+.back{display:inline-flex;align-items:center;gap:8px;height:48px;text-decoration:none;font-weight:500}
+.gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--soft);aspect-ratio:4/3;max-width:100%}
+.gallery::-webkit-scrollbar{display:none}
+.gallery img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start}
+.galwrap{position:relative}
+.galwrap .count{position:absolute;right:0;bottom:0;background:var(--bg);font-size:12px;font-weight:500;padding:7px 11px}
+.thumbs{display:flex;gap:4px;overflow-x:auto;margin-top:4px;scrollbar-width:none}
+.thumbs button{flex:0 0 68px;height:52px;padding:0;border:0;background:var(--soft);cursor:pointer;opacity:.6}
+.thumbs button[aria-current="true"]{opacity:1;box-shadow:inset 0 -2px 0 var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.dtitle{padding-top:26px;display:flex;flex-direction:column;gap:6px}
+.dtitle h1{font-size:30px;line-height:1.1}
+.dtitle .price{font-size:32px;margin-top:10px}
+.sec{padding-top:36px}
+.sec>h2{font-size:21px;margin-bottom:12px}
+.specs-t div{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid var(--line)}
+.specs-t span:last-child{font-weight:500;text-align:right}
+video{width:100%;max-width:100%;background:#000;display:block;aspect-ratio:16/9}
+.carbox{background:var(--soft);display:flex;justify-content:center;padding:24px 0 20px}
+.carbox svg{width:190px;height:auto;max-width:100%}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.legend div{display:flex;align-items:center;gap:9px;font-size:14px}
+.sw{width:14px;height:14px;border:1px solid #9E9EA2;flex-shrink:0;display:inline-block}
+.plist div,.plist button{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left}
+.plist b{font-weight:500;display:flex;align-items:center;gap:8px}
+.desc{white-space:pre-line;color:#3A3B3E;max-width:65ch;margin:0}
+.actionbar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);margin-top:36px;padding-top:12px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:5}
+.actionbar .wrap{display:flex;gap:10px}
+.actionbar .btn{flex:1}
+.actionbar .btn.wa{flex:2}
+.callbox{margin-top:10px;font-size:14px}
+
+/* panel */
+.ptitle{padding-top:28px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ptitle h1{font-size:28px}
+.stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:18px}
+.stats div{padding:14px 0}
+.stats div+div{border-left:1px solid var(--line);padding-left:18px}
+.stats b{display:block;font-family:var(--head);font-weight:500;font-size:28px}
+.prow{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.prow .th{width:76px;height:57px;background:var(--soft);flex-shrink:0;overflow:hidden}
+.prow .th img{width:100%;height:100%;object-fit:cover;display:block}
+.prow .info{flex:1;min-width:140px}
+.prow .acts{display:flex;gap:6px;flex-wrap:wrap}
+.toggle-on{background:var(--ink)!important;color:#fff!important}
+.confirm{width:100%;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--soft);padding:10px 12px;font-size:14px}
+.form{display:flex;flex-direction:column;gap:22px;padding-top:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);min-width:0}
+.fld input,.fld select{height:46px;border:0;border-bottom:1px solid #BDBDC0;padding:0;background:transparent;font-size:16px;color:var(--ink);min-width:0;border-radius:0}
+.fld textarea{min-height:110px;border:1px solid #BDBDC0;padding:12px;font-size:16px;resize:vertical;color:var(--ink);background:var(--bg)}
+.drop{border:1px dashed #A8A8AC;background:var(--soft);min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;text-align:center;padding:12px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.pics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pic{position:relative;aspect-ratio:4/3;background:var(--soft);overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .x{position:absolute;right:4px;top:4px;width:32px;height:32px;border:0;background:rgba(17,18,20,.8);color:#fff;cursor:pointer;font-size:16px;line-height:1}
+.pic .cov{position:absolute;left:0;bottom:0;background:var(--ink);color:#fff;font-size:11px;padding:4px 7px}
+.pic .mk{position:absolute;left:4px;bottom:4px;border:0;background:rgba(255,255,255,.92);font-size:11px;padding:5px 7px;cursor:pointer}
+.note{font-size:13px;color:var(--muted)}
+.err{font-size:14px;color:var(--danger)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:#fff;padding:12px 18px;font-size:14px;z-index:50}
+.seg{display:flex;gap:0;border:1px solid var(--ink)}
+.seg button{flex:1;height:44px;border:0;background:var(--bg);cursor:pointer;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+
+<script>
+(function(){
+"use strict";
+var PARTS=['Ön tampon','Kaput','Sol ön çamurluk','Sağ ön çamurluk','Sol ön kapı','Sağ ön kapı','Sol arka kapı','Sağ arka kapı','Tavan','Sol arka çamurluk','Sağ arka çamurluk','Bagaj','Arka tampon'];
+var PATHS=['M42 44 Q46 26 70 19 Q120 9 170 19 Q194 26 198 44 Z','M56 52 L184 52 Q190 100 182 150 L58 150 Q50 100 56 52 Z','M48 50 Q44 100 52 150 L54 164 L30 164 L30 72 Q32 54 48 50 Z','M192 50 Q196 100 188 150 L186 164 L210 164 L210 72 Q208 54 192 50 Z','M30 168 L56 168 L62 262 L30 262 Z','M210 168 L184 168 L178 262 L210 262 Z','M30 266 L62 266 L56 352 L30 352 Z','M210 266 L178 266 L184 352 L210 352 Z','M74 204 L166 204 Q170 262 166 318 L74 318 Q70 262 74 204 Z','M30 356 L54 356 L50 440 Q34 438 30 418 Z','M210 356 L186 356 L190 440 Q206 438 210 418 Z','M62 364 L178 364 L186 438 L54 438 Z','M44 446 L196 446 Q198 468 178 478 Q120 492 62 478 Q42 468 44 446 Z'];
+var STC=['#E4E4E6','#E8A93A','#2F6FD1','#BF3A30'];
+var STN=['Orijinal','Lokal boyalı','Boyalı','Değişen'];
+var FUELS=['Benzin','Dizel','LPG & Benzin','Hibrit','Elektrik'];
+var GEARS=['Manuel','Otomatik','Yarı otomatik'];
+var BODIES=['Sedan','Hatchback','SUV','Station wagon','Coupe','Cabrio','Pick-up','Minivan','Panelvan'];
+var SB_URL='https://mssbykehaubemvqqshtf.supabase.co',SB_KEY='sb_publishable_6vWq675sRnUcMx7EsPK8WA_v-WzpjjC',ADMIN_EMAIL='yonetici@kirliotomotiv.com';
+var sb=null;
+
+var S={cars:[],info:{},loaded:false,db:null,assets:null,canEdit:false,sort:'new',q:'',body:'Tümü',form:null,confirmDel:null,busy:'',err:'',infoForm:null,gi:0,showCall:false};
+var app=document.getElementById('app');
+
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function blob(p){return SB_URL+'/storage/v1/object/public/photos/'+String(p).split('/').map(encodeURIComponent).join('/');}
+function tl(n){var x=Number(n);return isFinite(x)&&x>0?x.toLocaleString('tr-TR')+' ₺':'Fiyat sorunuz';}
+function kmf(n){var x=Number(n);return isFinite(x)&&n!==''?x.toLocaleString('tr-TR')+' km':'';}
+function digits(s){return String(s||'').replace(/\D/g,'');}
+function waNum(s){var d=digits(s);if(d.startsWith('0'))d='90'+d.slice(1);else if(d.length===10&&d[0]==='5')d='90'+d;return d;}
+function toast(t){var el=document.createElement('div');el.className='toast';el.textContent=t;document.body.appendChild(el);setTimeout(function(){el.remove();},2400);}
+function route(){var h=location.hash.slice(1);if(h.indexOf('arac-')===0)return{v:'car',id:h.slice(5)};if(h==='panel')return{v:'panel'};if(h==='yeni')return{v:'form',id:null};if(h.indexOf('duzenle-')===0)return{v:'form',id:h.slice(8)};return{v:'list'};}
+
+function carSvg(st,edit){
+  st=st||[];
+  var parts=PATHS.map(function(d,i){var s=st[i]||0;return '<path'+(edit?' data-part="'+i+'" style="cursor:pointer"':'')+' fill="'+STC[s]+'" d="'+d+'"><title>'+esc(PARTS[i]+': '+STN[s])+'</title></path>';}).join('');
+  return '<svg viewBox="0 0 240 500" role="img" aria-label="Aracın üstten görünüşü, boya ve değişen durumu">'+
+  '<g fill="#2A2A2A"><rect x="20" y="78" width="12" height="58" rx="5"/><rect x="208" y="78" width="12" height="58" rx="5"/><rect x="20" y="368" width="12" height="58" rx="5"/><rect x="208" y="368" width="12" height="58" rx="5"/><path d="M30 178 L16 174 Q12 175 12 180 L12 186 Q12 190 16 190 L30 190 Z"/><path d="M210 178 L224 174 Q228 175 228 180 L228 186 Q228 190 224 190 L210 190 Z"/></g>'+
+  '<path fill="#BDBDC0" d="M120 12 Q178 12 200 30 Q212 42 212 70 L212 440 Q212 470 196 482 Q170 494 120 494 Q70 494 44 482 Q28 470 28 440 L28 70 Q28 42 40 30 Q62 12 120 12 Z"/>'+
+  '<g stroke="#F3F3F4" stroke-width="2.4" stroke-linejoin="round">'+parts+'</g>'+
+  '<g fill="#3A3F47" stroke="#F3F3F4" stroke-width="2.4" stroke-linejoin="round" style="pointer-events:none"><path d="M64 156 L176 156 L168 198 L72 198 Z"/><path d="M72 324 L168 324 L176 358 L64 358 Z"/><path d="M63 208 L70 208 Q67 262 70 314 L63 314 Q60 262 63 208 Z"/><path d="M177 208 L170 208 Q173 262 170 314 L177 314 Q180 262 177 208 Z"/></g>'+
+  '<g fill="#FFFFFF" style="pointer-events:none"><path d="M50 30 L66 24 L64 32 L52 36 Z"/><path d="M190 30 L174 24 L176 32 L188 36 Z"/></g>'+
+  '<g fill="#6E2B26" style="pointer-events:none"><rect x="48" y="452" width="18" height="6" rx="2"/><rect x="174" y="452" width="18" height="6" rx="2"/></g></svg>';
+}
+function legend(){return '<div class="legend">'+STN.map(function(n,i){return '<div><span class="sw" style="background:'+STC[i]+'"></span>'+n+'</div>';}).join('')+'</div>';}
+
+function strip(){
+  return '<header class="strip"><div class="wrap"><img src="emblem.png" alt="Kırlı Otomotiv amblemi">'+
+  '<a href="#" class="brandtxt"><div class="brand1">KIRLI</div><div class="brand2">OTOMOTİV</div><div class="brand3">Kırlı Otomotiv, kârlı ticaret.</div></a>'+
+  (S.canEdit?'<a class="stripbtn" href="#panel">Yönetim</a>':'')+'</div></header>';
+}
+function footer(){
+  var i=S.info||{};var wa=waNum(i.whatsapp||i.phone);
+  return '<footer class="foot"><div class="wrap"><h2>Aradığınız araç bizde olabilir.</h2>'+
+  (i.about?'<p class="about">'+esc(i.about)+'</p>':'')+
+  '<div class="kv">'+
+  (i.address?'<div><span>ADRES</span><span>'+esc(i.address)+'</span></div>':'')+
+  (i.phone?'<div><span>TELEFON</span><span class="num">'+esc(i.phone)+'</span></div>':'')+
+  (i.hours?'<div><span>ÇALIŞMA SAATLERİ</span><span>'+esc(i.hours)+'</span></div>':'')+
+  (!i.address&&!i.phone&&!i.hours?'<div><span>İLETİŞİM</span><span>Adres ve telefon bilgisi yakında eklenecek.</span></div>':'')+
+  '</div><div class="btns">'+
+  (i.phone?'<a class="btn" href="tel:+'+esc(waNum(i.phone))+'">Ara</a>':'')+
+  (wa?'<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+esc(wa)+'">WhatsApp ile yazın</a>':'')+
+  '</div><div class="copy"><span>© Kırlı Otomotiv</span>'+(i.instagram?'<a target="_blank" rel="noopener" href="https://instagram.com/'+esc(String(i.instagram).replace(/^@/,''))+'">Instagram</a>':'')+'</div></div></footer>';
+}
+
+function sorted(){
+  var list=S.cars.slice();
+  var q=S.q.trim().toLocaleLowerCase('tr');
+  if(q)list=list.filter(function(c){return (c.brand+' '+c.model+' '+c.year).toLocaleLowerCase('tr').indexOf(q)>=0;});
+  if(S.body!=='Tümü')list=list.filter(function(c){return c.body===S.body;});
+  list.sort(function(a,b){
+    if(!!a.sold!==!!b.sold)return a.sold?1:-1;
+    if(S.sort==='asc')return (a.price||0)-(b.price||0);
+    if(S.sort==='desc')return (b.price||0)-(a.price||0);
+    return (b.createdAt||0)-(a.createdAt||0);
+  });
+  return list;
+}
+function carCard(c){
+  var cover=(c.photos||[])[0];
+  return '<a class="car'+(c.sold?' sold':'')+'" href="#arac-'+esc(c.id)+'">'+
+  '<div class="photo">'+(cover?'<img loading="lazy" alt="'+esc(c.brand+' '+c.model)+'" src="'+blob(cover)+'">':'<div class="ph">FOTOĞRAF YOK</div>')+
+  (c.sold?'<span class="badge s">SATILDI</span>':'')+
+  '</div>'+
+  '<div><div class="eyebrow">'+esc(c.brand)+'</div><div class="model">'+esc(c.model)+'</div>'+
+  '<div class="specs num">'+[c.year,kmf(c.km),c.fuel,c.gear].filter(Boolean).map(esc).join(' · ')+'</div>'+
+  '<div class="row"><span class="price num">'+(c.sold?'Satıldı':esc(tl(c.price)))+'</span><span style="font-weight:500">İncele →</span></div></div></a>';
+}
+function viewList(){
+  var bodies=['Tümü'];S.cars.forEach(function(c){if(c.body&&bodies.indexOf(c.body)<0)bodies.push(c.body);});
+  var list=sorted();var active=S.cars.filter(function(c){return !c.sold;}).length;
+  var h=strip()+'<main class="wrap"><div class="listhead"><h1>Stoktaki araçlar</h1><span class="muted num">'+active+' araç satışta</span></div>';
+  if(S.cars.length){
+    h+='<div class="tools"><label for="q" style="position:absolute;left:-9999px">Araç ara</label><input id="q" type="search" placeholder="Marka, model, yıl" value="'+esc(S.q)+'">'+
+    '<label for="sort" style="position:absolute;left:-9999px">Sıralama</label><select id="sort"><option value="new"'+(S.sort==='new'?' selected':'')+'>En yeni</option><option value="asc"'+(S.sort==='asc'?' selected':'')+'>Fiyat: artan</option><option value="desc"'+(S.sort==='desc'?' selected':'')+'>Fiyat: azalan</option></select></div>';
+    if(bodies.length>2)h+='<div class="tabs" role="group" aria-label="Kasa tipi">'+bodies.map(function(b){return '<button data-act="body" data-v="'+esc(b)+'" aria-pressed="'+(S.body===b)+'">'+esc(b)+'</button>';}).join('')+'</div>';
+    h+='<div class="cars" id="cars">'+(list.length?list.map(carCard).join(''):'<div class="empty"><p class="muted">Aramanıza uyan araç bulunamadı.</p></div>')+'</div>';
+  }else{
+    h+='<div class="empty">'+(S.loaded?'<h2>Yeni araçlar yakında burada</h2><p class="muted">Güncel stok bu sayfada listelenecek.</p>'+(S.canEdit?'<a class="btn dark" href="#yeni">İlk aracı ekle</a>':''):'<p class="muted">Araçlar yükleniyor…</p>')+'</div>';
+  }
+  return h+'</main>'+footer();
+}
+
+function viewCar(id){
+  var c=S.cars.find(function(x){return x.id===id;});
+  var h=strip()+'<main class="wrap"><a class="back" href="#">← Tüm araçlar</a>';
+  if(!c)return h+'<div class="empty">'+(S.loaded?'<h2>Bu ilan bulunamadı</h2><p class="muted">Araç satılmış ya da ilan kaldırılmış olabilir.</p>':'<p class="muted">Yükleniyor…</p>')+'</div></main>'+footer();
+  var ph=c.photos||[];
+  h+='</main><div class="wrap" style="padding-left:0;padding-right:0">';
+  if(ph.length){
+    h+='<div class="galwrap"><div class="gallery" id="gal">'+ph.map(function(p,i){return '<img src="'+blob(p)+'" alt="'+esc(c.brand+' '+c.model+' fotoğraf '+(i+1))+'"'+(i>0?' loading="lazy"':'')+'>';}).join('')+'</div>'+
+    (c.sold?'<span class="badge" style="left:0;top:0">SATILDI</span>':'')+'<span class="count num" id="gcount">1 / '+ph.length+'</span></div>';
+    if(ph.length>1)h+='<div class="thumbs" id="thumbs">'+ph.map(function(p,i){return '<button data-act="goto" data-i="'+i+'" aria-label="Fotoğraf '+(i+1)+'" aria-current="'+(i===0)+'"><img loading="lazy" alt="" src="'+blob(p)+'"></button>';}).join('')+'</div>';
+  }else h+='<div class="photo"><div class="ph">FOTOĞRAF YOK</div></div>';
+  h+='</div><main class="wrap"><div class="dtitle"><span class="eyebrow">'+esc(c.brand)+'</span><h1>'+esc(c.model)+'</h1>'+
+  '<span class="muted num">'+[c.year,kmf(c.km),c.fuel,c.gear].filter(Boolean).map(esc).join(' · ')+'</span>'+
+  '<span class="price num">'+(c.sold?'Satıldı':esc(tl(c.price)))+'</span></div>';
+  var specs=[['Marka',c.brand],['Model',c.model],['Yıl',c.year],['Kilometre',kmf(c.km)],['Yakıt',c.fuel],['Vites',c.gear],['Kasa tipi',c.body],['Renk',c.color],['Tramer',c.tramer],['Takas',c.takas]].filter(function(r){return r[1];});
+  h+='<section class="sec"><h2>Araç bilgileri</h2><div class="specs-t">'+specs.map(function(r){return '<div><span class="muted">'+r[0]+'</span><span class="num">'+esc(r[1])+'</span></div>';}).join('')+'</div></section>';
+  var st=c.parts||[];var ch=[];st.forEach(function(s,i){if(s)ch.push(i);});
+  h+='<section class="sec"><h2>Boya ve değişen</h2><div class="carbox">'+carSvg(st,false)+'</div>'+legend()+
+  '<div class="plist" style="margin-top:14px">'+(ch.length?ch.map(function(i){return '<div><span>'+PARTS[i]+'</span><b><span class="sw" style="background:'+STC[st[i]]+'"></span>'+STN[st[i]]+'</b></div>';}).join('')+'<div><span class="muted">Diğer tüm parçalar orijinal.</span></div>':'<div><span>Tüm parçalar orijinal, boya ve değişen yok.</span></div>')+'</div></section>';
+  if(c.desc)h+='<section class="sec"><h2>Açıklama</h2><p class="desc">'+esc(c.desc)+'</p></section>';
+  h+='</main>';
+  var i=S.info||{};var wa=waNum(i.whatsapp||i.phone);
+  if(!c.sold&&(wa||i.phone)){
+    var msg='Merhaba, '+c.year+' '+c.brand+' '+c.model+' ilanı hakkında bilgi almak istiyorum.';
+    h+='<div class="actionbar"><div class="wrap">'+(i.phone?'<button class="btn" data-act="call">Ara</button>':'')+(wa?'<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+esc(wa)+'?text='+encodeURIComponent(msg)+'">WhatsApp ile bilgi al</a>':'')+'</div>'+
+    (S.showCall&&i.phone?'<div class="wrap callbox">Telefon: <a class="num" href="tel:+'+esc(waNum(i.phone))+'"><b>'+esc(i.phone)+'</b></a></div>':'')+'</div>';
+  }
+  return h+footer();
+}
+
+function viewPanel(){
+  if(!S.canEdit)return strip()+'<main class="wrap"><form class="form" id="login" style="max-width:420px;margin:0 auto;padding-top:48px"><h1 style="font-size:28px">Yönetici girişi</h1><p class="muted" style="margin:0">İlan eklemek ve düzenlemek için galeri şifresini girin.</p><label class="fld">Şifre<input id="pw" type="password" autocomplete="current-password" required></label><p class="err" id="lerr" role="alert"></p><button class="btn dark" type="submit" id="lbtn">Giriş yap</button><a class="btn ghost" href="#">Araçlara dön</a></form></main>';
+  var sold=S.cars.filter(function(c){return c.sold;}).length;
+  var list=S.cars.slice().sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0);});
+  var h=strip()+'<main class="wrap"><div class="ptitle"><h1>Yönetim</h1><div style="display:flex;gap:8px"><a class="btn dark sm" href="#yeni">+ Araç ekle</a><button class="btn sm ghost" data-act="logout">Çıkış</button></div></div>'+
+  '<div class="stats"><div><span class="muted">Satışta</span><b class="num">'+(S.cars.length-sold)+'</b></div><div><span class="muted">Satıldı</span><b class="num">'+sold+'</b></div></div>';
+  if(!list.length)h+='<div class="empty"><p class="muted">Henüz araç eklenmedi.</p><a class="btn dark" href="#yeni">İlk aracı ekle</a></div>';
+  list.forEach(function(c){
+    var cov=(c.photos||[])[0];
+    h+='<div class="prow"><div class="th">'+(cov?'<img alt="" src="'+blob(cov)+'">':'')+'</div><div class="info"><div style="font-weight:500">'+esc(c.year+' '+c.brand+' '+c.model)+'</div><div class="muted num" style="font-size:13px">'+esc(tl(c.price))+'</div></div>'+
+    '<div class="acts"><button class="btn sm'+(c.sold?' toggle-on':'')+'" data-act="sold" data-id="'+esc(c.id)+'">'+(c.sold?'Satıldı ✓':'Satıldı yap')+'</button><a class="btn sm ghost" href="#duzenle-'+esc(c.id)+'">Düzenle</a><button class="btn sm ghost" data-act="askdel" data-id="'+esc(c.id)+'">Sil</button></div>'+
+    (S.confirmDel===c.id?'<div class="confirm"><span style="flex:1;min-width:160px">Bu ilan ve fotoğrafları kalıcı olarak silinsin mi?</span><button class="btn sm" style="background:var(--danger);border-color:var(--danger);color:#fff" data-act="del" data-id="'+esc(c.id)+'">Sil</button><button class="btn sm ghost" data-act="nodel">Vazgeç</button></div>':'')+'</div>';
+  });
+  var f=S.infoForm||Object.assign({phone:'',whatsapp:'',address:'',hours:'',about:'',instagram:''},S.info);S.infoForm=f;
+  h+='<section class="sec" style="padding-top:44px"><h2>Galeri bilgileri</h2><p class="note" style="margin:0 0 14px">Bu bilgiler sitenin altında ve ilanlardaki Ara / WhatsApp düğmelerinde kullanılır.</p><div class="form">'+
+  '<div class="grid2">'+inf('phone','Telefon','0555 000 00 00')+inf('whatsapp','WhatsApp numarası','Boşsa telefon kullanılır')+'</div>'+
+  inf('address','Adres','Mahalle, cadde, ilçe / il')+inf('instagram','Instagram kullanıcı adı','@kirliotomotiv')+
+  '<label class="fld">Hakkımızda<textarea data-i="about" id="i-about" placeholder="Kısa tanıtım yazısı">'+esc(f.about)+'</textarea></label>'+
+  '<button class="btn dark" data-act="saveinfo">Bilgileri kaydet</button></div></section></main>';
+  return h;
+}
+function inf(k,l,p){return '<label class="fld">'+l+'<input data-i="'+k+'" id="i-'+k+'" placeholder="'+esc(p)+'" value="'+esc(S.infoForm[k])+'"></label>';}
+
+function blankForm(){return {id:null,brand:'',model:'',year:'',km:'',fuel:'',gear:'',body:'',color:'',price:'',tramer:'',takas:'',desc:'',photos:[],parts:PARTS.map(function(){return 0;}),sold:false,createdAt:null};}
+function fld(k,l,p,type){var f=S.form;return '<label class="fld">'+l+'<input data-f="'+k+'" id="f-'+k+'" '+(type?'inputmode="'+type+'" ':'')+'placeholder="'+esc(p||'')+'" value="'+esc(f[k])+'"></label>';}
+function sel(k,l,opts){var f=S.form;return '<label class="fld">'+l+'<select data-f="'+k+'" id="f-'+k+'"><option value="">Seçin</option>'+opts.map(function(o){return '<option'+(f[k]===o?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></label>';}
+function picsHtml(){
+  var f=S.form;
+  return f.photos.map(function(p,i){return '<div class="pic"><img alt="" src="'+blob(p)+'"><button class="x" data-act="rmpic" data-i="'+i+'" aria-label="Fotoğrafı kaldır">×</button>'+(i===0?'<span class="cov">Kapak</span>':'<button class="mk" data-act="cover" data-i="'+i+'">Kapak yap</button>')+'</div>';}).join('');
+}
+function ekspHtml(){
+  var f=S.form;
+  return '<div class="carbox">'+carSvg(f.parts,true)+'</div>'+legend()+'<div class="plist" style="margin-top:14px">'+PARTS.map(function(n,i){var s=f.parts[i]||0;return '<button type="button" data-act="part" data-i="'+i+'"><span>'+n+'</span><b><span class="sw" style="background:'+STC[s]+'"></span>'+STN[s]+'</b></button>';}).join('')+'</div>';
+}
+function mediaHtml(){
+  var f=S.form;
+  var h='<div class="pics" id="pics">'+picsHtml()+'</div>';
+  h+='<label class="drop" for="ph-in"><input id="ph-in" type="file" accept="image/*" multiple><b>Fotoğraf ekle</b><span class="note">Galeriden birden fazla seçebilirsiniz. İlk fotoğraf kapak olur.</span></label>';
+  if(S.busy)h+='<p class="note" role="status">'+esc(S.busy)+'</p>';
+  if(S.err)h+='<p class="err" role="alert">'+esc(S.err)+'</p>';
+  return h;
+}
+function viewForm(id){
+  if(!S.canEdit)return viewPanel();
+  if(!S.form||S.form.id!==id){
+    if(id){var c=S.cars.find(function(x){return x.id===id;});if(!c)return strip()+'<main class="wrap"><div class="empty"><p class="muted">'+(S.loaded?'İlan bulunamadı.':'Yükleniyor…')+'</p></div></main>';
+      S.form=JSON.parse(JSON.stringify(c));S.form.parts=(S.form.parts||[]).concat([]);while(S.form.parts.length<PARTS.length)S.form.parts.push(0);S.form.photos=S.form.photos||[];}
+    else S.form=blankForm();
+    S.err='';S.busy='';
+  }
+  var f=S.form;
+  var h=strip()+'<main class="wrap"><a class="back" href="#panel">← Yönetim</a><div class="ptitle" style="padding-top:4px"><h1>'+(id?'İlanı düzenle':'Yeni araç')+'</h1></div><div class="form">'+
+  '<section style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:20px">Fotoğraflar</h2><div id="media" style="display:flex;flex-direction:column;gap:12px">'+mediaHtml()+'</div></section>'+
+  '<section style="display:flex;flex-direction:column;gap:16px"><h2 style="font-size:20px">Araç bilgileri</h2><div class="grid2">'+
+  fld('brand','Marka *','Volkswagen')+fld('model','Model *','Passat 1.5 TSI Highline')+fld('year','Yıl','2019','numeric')+fld('km','Kilometre','98000','numeric')+
+  sel('fuel','Yakıt',FUELS)+sel('gear','Vites',GEARS)+sel('body','Kasa tipi',BODIES)+fld('color','Renk','Beyaz')+
+  fld('price','Fiyat (₺) *','1450000','numeric')+fld('tramer','Tramer','Yok / 12.500 ₺')+'</div>'+
+  '<div style="display:flex;flex-direction:column;gap:8px"><span class="note">Takas</span><div class="seg" role="group" aria-label="Takas">'+['Uygun','Uygun değil'].map(function(o){return '<button type="button" data-act="takas" data-v="'+o+'" aria-pressed="'+(f.takas===o)+'">'+o+'</button>';}).join('')+'</div></div></section>'+
+  '<section><h2 style="font-size:20px;margin-bottom:6px">Boya ve değişen</h2><p class="note" style="margin:0 0 12px">Şemada parçaya ya da listede satıra dokunun. Her dokunuşta durum değişir.</p><div id="eksp">'+ekspHtml()+'</div></section>'+
+  '<label class="fld">Açıklama<textarea data-f="desc" id="f-desc" placeholder="Bakım geçmişi, ekstra donanımlar, takas durumu…">'+esc(f.desc)+'</textarea></label>'+
+  '<p class="err" id="ferr" role="alert"></p>'+
+  '<button class="btn dark" data-act="save" id="savebtn">'+(id?'Değişiklikleri kaydet':'İlanı yayınla')+'</button><a class="btn ghost" href="#panel">Vazgeç</a></div></main>';
+  return h;
+}
+
+var lastView='';
+function render(){
+  var r=route();var key=r.v+':'+(r.id||'');
+  var html=r.v==='car'?viewCar(r.id):r.v==='panel'?viewPanel():r.v==='form'?viewForm(r.id):viewList();
+  var y=window.scrollY;
+  app.innerHTML=html;
+  if(key!==lastView){window.scrollTo(0,0);S.showCall=false;if(r.v!=='form')S.form=null;if(r.v!=='panel'){S.infoForm=null;S.confirmDel=null;}}else window.scrollTo(0,y);
+  lastView=key;
+  var g=document.getElementById('gal');
+  if(g){g.addEventListener('scroll',function(){var i=Math.round(g.scrollLeft/g.clientWidth);var n=g.children.length;var c=document.getElementById('gcount');if(c)c.textContent=(i+1)+' / '+n;var t=document.querySelectorAll('#thumbs button');t.forEach(function(b,j){b.setAttribute('aria-current',String(j===i));});},{passive:true});}
+}
+function rerenderMedia(){var m=document.getElementById('media');if(m)m.innerHTML=mediaHtml();}
+function rerenderEksp(){var e=document.getElementById('eksp');if(e)e.innerHTML=ekspHtml();}
+
+function compress(file){return new Promise(function(res){
+  var url=URL.createObjectURL(file);var img=new Image();
+  img.onload=function(){var max=1600,w=img.naturalWidth,h=img.naturalHeight,k=Math.min(1,max/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);
+    var cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);
+    cv.toBlob(function(b){URL.revokeObjectURL(url);res(b);},'image/jpeg',0.84);};
+  img.onerror=function(){URL.revokeObjectURL(url);res(null);};img.src=url;});}
+function fromRow(r){return {id:r.id,brand:r.brand||'',model:r.model||'',year:r.year||'',km:r.km==null?'':r.km,fuel:r.fuel||'',gear:r.gear||'',body:r.body||'',color:r.color||'',price:r.price,tramer:r.tramer||'',takas:r.takas||'',desc:r.descr||'',photos:r.photos||[],parts:r.parts||[],sold:!!r.sold,createdAt:Date.parse(r.created_at)||0};}
+async function loadCars(){
+  var r=await sb.from('cars').select('*').order('created_at',{ascending:false});
+  if(!r.error)S.cars=(r.data||[]).map(fromRow);
+  S.loaded=true;
+}
+async function loadInfo(){var r=await sb.from('site_info').select('*').eq('id',1).maybeSingle();if(!r.error&&r.data)S.info=r.data;}
+async function refresh(){await loadCars();if(route().v!=='form')render();}
+async function uploadPhotos(files){
+  S.err='';var arr=Array.prototype.slice.call(files);
+  for(var i=0;i<arr.length;i++){
+    S.busy='Fotoğraflar yükleniyor: '+(i+1)+' / '+arr.length;rerenderMedia();
+    var b=await compress(arr[i]);
+    if(!b){S.err='Bir fotoğraf açılamadı. JPG veya PNG bir fotoğraf seçin.';continue;}
+    var path=new Date().toISOString().slice(0,10)+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.jpg';
+    var r=await sb.storage.from('photos').upload(path,b,{contentType:'image/jpeg',cacheControl:'31536000'});
+    if(r.error){S.err='Fotoğraf yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.';}
+    else if(S.form)S.form.photos.push(path);
+  }
+  S.busy='';rerenderMedia();
+}
+async function saveCar(){
+  var f=S.form,er=document.getElementById('ferr');
+  if(!f.brand.trim()||!f.model.trim()||!digits(f.price)){er.textContent='Marka, model ve fiyat zorunludur.';return;}
+  if(S.busy){er.textContent='Fotoğraflar yüklenene kadar bekleyin.';return;}
+  var row={brand:f.brand.trim(),model:f.model.trim(),year:digits(f.year).slice(0,4)||null,km:digits(f.km)?Number(digits(f.km)):null,fuel:f.fuel||null,gear:f.gear||null,body:f.body||null,color:String(f.color||'').trim()||null,
+    price:Number(digits(f.price)),tramer:String(f.tramer||'').trim()||null,takas:f.takas||null,descr:String(f.desc||'').trim()||null,photos:f.photos.slice(),parts:f.parts.slice(0,13),updated_at:new Date().toISOString()};
+  var btn=document.getElementById('savebtn');btn.disabled=true;btn.textContent='Kaydediliyor…';
+  var r=f.id?await sb.from('cars').update(row).eq('id',f.id):await sb.from('cars').insert(row);
+  if(r.error){btn.disabled=false;btn.textContent='Tekrar dene';er.textContent=/JWT|auth/i.test(r.error.message||'')?'Oturumunuz kapanmış. Çıkış yapıp tekrar giriş yapın.':'Kaydedilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.';return;}
+  var wasEdit=!!f.id;S.form=null;await loadCars();toast(wasEdit?'Değişiklikler kaydedildi':'İlan yayınlandı');location.hash='#panel';render();
+}
+
+app.addEventListener('submit',async function(ev){
+  if(ev.target.id!=='login')return;ev.preventDefault();
+  var pw=document.getElementById('pw').value,er=document.getElementById('lerr'),b=document.getElementById('lbtn');
+  if(!sb){er.textContent='Bağlantı kurulamadı. Sayfayı yenileyin.';return;}
+  b.disabled=true;b.textContent='Giriş yapılıyor…';
+  var r=await sb.auth.signInWithPassword({email:ADMIN_EMAIL,password:pw});
+  if(r.error){b.disabled=false;b.textContent='Giriş yap';er.textContent='Şifre yanlış. Tekrar deneyin.';return;}
+  S.canEdit=true;toast('Giriş yapıldı');render();
+});
+app.addEventListener('click',async function(ev){
+  var path=ev.target.closest('[data-part]');
+  if(path&&S.form){var i=+path.getAttribute('data-part');S.form.parts[i]=((S.form.parts[i]||0)+1)%4;rerenderEksp();return;}
+  var t=ev.target.closest('[data-act]');if(!t)return;
+  var a=t.getAttribute('data-act');
+  if(a==='body'){S.body=t.getAttribute('data-v');render();}
+  else if(a==='goto'){var g=document.getElementById('gal');if(g)g.scrollTo({left:g.clientWidth*(+t.getAttribute('data-i')),behavior:'smooth'});}
+  else if(a==='call'){S.showCall=true;render();}
+  else if(a==='part'&&S.form){var j=+t.getAttribute('data-i');S.form.parts[j]=((S.form.parts[j]||0)+1)%4;rerenderEksp();}
+  else if(a==='takas'&&S.form){S.form.takas=t.getAttribute('data-v');document.querySelectorAll('[data-act="takas"]').forEach(function(b){b.setAttribute('aria-pressed',String(b===t));});}
+  else if(a==='rmpic'&&S.form){S.form.photos.splice(+t.getAttribute('data-i'),1);rerenderMedia();}
+  else if(a==='cover'&&S.form){var k=+t.getAttribute('data-i');var p=S.form.photos.splice(k,1)[0];S.form.photos.unshift(p);rerenderMedia();}
+  else if(a==='save'){saveCar();}
+  else if(a==='logout'){await sb.auth.signOut();S.canEdit=false;location.hash='';render();}
+  else if(a==='sold'){var id=t.getAttribute('data-id');var c=S.cars.find(function(x){return x.id===id;});if(!c)return;
+    t.disabled=true;var r=await sb.from('cars').update({sold:!c.sold,sold_at:!c.sold?new Date().toISOString():null}).eq('id',id);
+    if(r.error){t.disabled=false;toast('Kaydedilemedi, tekrar deneyin');return;}
+    toast(!c.sold?'Satıldı olarak işaretlendi':'Tekrar satışa alındı');refresh();}
+  else if(a==='askdel'){S.confirmDel=t.getAttribute('data-id');render();}
+  else if(a==='nodel'){S.confirmDel=null;render();}
+  else if(a==='del'){var did=t.getAttribute('data-id');var dc=S.cars.find(function(x){return x.id===did;});t.disabled=true;
+    var d=await sb.from('cars').delete().eq('id',did);
+    if(d.error){t.disabled=false;toast('Silinemedi, tekrar deneyin');return;}
+    if(dc&&dc.photos&&dc.photos.length)await sb.storage.from('photos').remove(dc.photos);
+    S.confirmDel=null;toast('İlan silindi');refresh();}
+  else if(a==='saveinfo'){var f=S.infoForm;t.disabled=true;
+    var r2=await sb.from('site_info').update({phone:f.phone.trim(),whatsapp:f.whatsapp.trim(),address:f.address.trim(),about:f.about.trim(),instagram:f.instagram.trim()}).eq('id',1);
+    t.disabled=false;if(r2.error){toast('Kaydedilemedi, tekrar deneyin');return;}await loadInfo();toast('Galeri bilgileri kaydedildi');}
+});
+app.addEventListener('input',function(ev){
+  var t=ev.target;
+  if(t.id==='q'){S.q=t.value;var c=document.getElementById('cars');if(c){var l=sorted();c.innerHTML=l.length?l.map(carCard).join(''):'<div class="empty"><p class="muted">Aramanıza uyan araç bulunamadı.</p></div>';}return;}
+  var k=t.getAttribute('data-f');if(k&&S.form){S.form[k]=t.value;return;}
+  var ki=t.getAttribute('data-i');if(ki&&S.infoForm&&t.tagName!=='BUTTON'){S.infoForm[ki]=t.value;}
+});
+app.addEventListener('change',function(ev){
+  var t=ev.target;
+  if(t.id==='sort'){S.sort=t.value;render();}
+  else if(t.id==='ph-in'&&t.files&&t.files.length){uploadPhotos(t.files);}
+  else{var k=t.getAttribute('data-f');if(k&&S.form)S.form[k]=t.value;}
+});
+window.addEventListener('hashchange',render);
+
+render();
+(async function(){
+  if(!window.supabase){S.loaded=true;render();return;}
+  sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+  var s=await sb.auth.getSession();S.canEdit=!!(s.data&&s.data.session);
+  await Promise.all([loadCars(),loadInfo()]);
+  render();
+})();
+})();
+</script>
+
+</body>
+</html>
